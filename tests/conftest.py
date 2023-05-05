@@ -2,7 +2,7 @@ import sqlite3
 import shutil
 from pathlib import Path
 
-import pytest
+import pytest  # noqa
 
 
 @pytest.fixture
@@ -11,12 +11,15 @@ def db_connection():
 
 
 @pytest.fixture(scope="session")
-def setup():
+def directory():
     """
     Create a directory with two files in it, and a subdirectory with one
     file in it.
+
+    The subdirectory is to test that the functions only look at the files in
+    *their* directory, and not the files in any subdirectory.
     """
-    directory = Path("tests/dummy-directory").absolute()
+    directory = Path("tests/unit/dummy-directory").absolute()
     subdirectory = directory / "sub-directory"
 
     shutil.rmtree(directory, ignore_errors=True)
