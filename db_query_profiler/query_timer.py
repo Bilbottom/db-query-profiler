@@ -3,14 +3,14 @@ Query profiling.
 """
 import datetime
 import functools
+import inspect
 import timeit
+import warnings
 from pathlib import Path
 from typing import Any, Callable, Generator, List, Union
 from typing_extensions import Protocol
 
 import tqdm
-
-Filepath = Union[str, Path]
 
 
 class DatabaseConnection(Protocol):
@@ -22,30 +22,16 @@ class DatabaseConnection(Protocol):
         """Execute a statement."""
 
 
-def get_file_contents(filepath: Filepath) -> str:
+def _safe_divide(numerator: float, denominator: float) -> float:
     """
-    Return the contents of the file at ``filepath``.
+    Return the result of dividing ``numerator`` by ``denominator`` if
+    ``denominator`` is not 0, else return 0.
 
-    :param filepath: The path to the file to read.
-    """
-    with open(filepath, "r") as f:
-        return f.read()
+    Source:
 
-
-def get_query_filepaths(directory: Filepath) -> Generator:
+    - https://stackoverflow.com/a/68118106/8213085
     """
-    Return the full file name paths of the files at ``directory``.
-    """
-    for path in directory.glob("*"):
-        if path.is_file():
-            yield path
-
-
-def execute_query(query: str, db_conn: DatabaseConnection) -> None:
-    """
-    Run the SQL query contained inside the file at the file path.
-    """
-    db_conn.execute(query)
+    return denominator and numerator / denominator
 
 
 class Runner:
@@ -57,12 +43,20 @@ class Runner:
     and summarise their statistics.
     """
 
-    def __init__(self, runner: Callable, filepath: Filepath):
+    def __init__(self, runner: Callable, name: str):
         self.runner = runner
-        self.filepath = Path(filepath)
+        self.name = name
 
         self.repeat: int = 0
         self.total_time: float = 0.0
+
+    def __repr__(self):
+        return f"Runner(runner={self.runner}, name={self.name})"
+
+    def __str__(self):
+        sig = inspect.signature(self.runner)
+
+        return f"Runner(runner=[[{sig.parameters}], {sig.return_annotation}], name={self.name})"
 
     def __call__(self, time_it: bool = True):
         if time_it:
@@ -78,14 +72,7 @@ class Runner:
 
         If the function has not been run, returns 0.
         """
-        return self.repeat and self.total_time / self.repeat
-
-    @property
-    def file_name(self) -> str:
-        """
-        The name of the file containing the code to run.
-        """
-        return self.filepath.name
+        return _safe_divide(self.total_time, self.repeat)
 
     def format_runtime(self, total_avg_time: float) -> str:
         """
@@ -93,29 +80,58 @@ class Runner:
 
         This will additionally include the average time of this runner as a
         percentage of the average time of all runners for comparison.
+
+        :param total_avg_time: The average time of all runners to use as the
+         denominator for the percentage calculation.
         """
-        return f"{self.file_name}: {self.average_time:.8f} ({self.average_time / total_avg_time:.1%})"
+        return f"{self.name}: {self.average_time:.8f} ({_safe_divide(self.average_time, total_avg_time):.1%})"
 
 
-def create_query_runners(filepath: Filepath, conn: DatabaseConnection) -> List[Runner]:
+def _get_query_filepaths(directory: Path) -> Generator:
     """
-    Create a list of Runners each corresponding to the queries in the query
-    filepath.
+    Return the full file name paths of the files at ``directory``.
+
+    :param directory: The path to the directory whose contents should be
+     read.
+    """
+    for path in directory.glob("*"):
+        if path.is_file():
+            if path.suffix != ".sql":
+                warnings.warn(
+                    f"File {path} does not end with '.sql'. Non-SQL code might attempt to be executed."
+                )
+
+            yield path
+
+
+def execute_query(query: str, db_conn: DatabaseConnection) -> None:
+    """
+    Run the SQL query contained inside the file at the file path.
+    """
+    db_conn.execute(query)
+
+
+def _create_query_runners(
+    directory: Path,
+    db_conn: DatabaseConnection,
+) -> List[Runner]:
+    """
+    Return a list of ``Runners`` each corresponding to the files in the
+    ``filepath``.
     """
     return [
         Runner(
+            # runner=lambda: db_conn.execute(file.read_text()),  # lambda is doing something weird
             runner=functools.partial(
-                execute_query,
-                query=get_file_contents(file),
-                db_conn=conn,
+                execute_query, query=file.read_text(), db_conn=db_conn
             ),
-            filepath=file,
+            name=file.name,
         )
-        for file in get_query_filepaths(filepath)
+        for file in _get_query_filepaths(directory)
     ]
 
 
-def print_runner_stats(list_of_runners: List[Runner]) -> None:
+def _print_runner_stats(list_of_runners: List[Runner]) -> None:
     """
     Print the average run times of the runners.
     """
@@ -123,7 +139,7 @@ def print_runner_stats(list_of_runners: List[Runner]) -> None:
     [print(runner.format_runtime(total_avg_time)) for runner in list_of_runners]
 
 
-def print_times() -> Callable:
+def _print_times() -> Callable:
     """
     Print the start and end times of the wrapped function.
     """
@@ -132,7 +148,9 @@ def print_times() -> Callable:
         @functools.wraps(func)
         def wrapper(*args, **kwargs) -> Any:
             print(f"Start time: {datetime.datetime.now()}")
+            print(40 * "-")
             func(*args, **kwargs)
+            print(40 * "-")
             print(f"End time: {datetime.datetime.now()}")
 
         return wrapper
@@ -140,20 +158,26 @@ def print_times() -> Callable:
     return decorator
 
 
-@print_times()
-def time_queries(directory: Filepath, repeat: int, conn: DatabaseConnection) -> None:
+@_print_times()
+def time_queries(
+    directory: Union[str, Path],
+    repeat: int,
+    conn: DatabaseConnection,
+) -> None:
     """
     Time the SQL queries in the directory and print the results.
 
     :param directory: The path to the directory containing the SQL queries.
-    :param repeat: The number of times to run each query.
-    :param conn: The database connector. Must implement a
-     ``run_query_from_file`` method.
+    :param repeat: The number of times to run each query. Note that the
+     queries will all be run once before the repeat loop to set up the temp
+     tables in the database (there's no way to avoid these implicit tables).
+    :param conn: The database connector. Must implement an ``execute``
+     method.
     """
     directory = Path(directory)
-    runners: List[Runner] = create_query_runners(
-        filepath=directory,
-        conn=conn,
+    runners: List[Runner] = _create_query_runners(
+        directory=directory,
+        db_conn=conn,
     )
 
     # Set the 'temp' tables
@@ -165,4 +189,4 @@ def time_queries(directory: Filepath, repeat: int, conn: DatabaseConnection) -> 
         for runner in runners:
             runner()
 
-    print_runner_stats(list_of_runners=runners)
+    _print_runner_stats(list_of_runners=runners)
