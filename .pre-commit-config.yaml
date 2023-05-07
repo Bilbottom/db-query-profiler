@@ -37,4 +37,5 @@ repos:
       - id: sourcery
         name: Check for refactoring opportunities
         args: [--diff=git diff HEAD, --no-summary]
-        files: db_query_profiler
+        include: db_query_profiler
+        exclude: \.*/__init__\.py
