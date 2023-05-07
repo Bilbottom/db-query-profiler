@@ -1,6 +1,7 @@
 build==0.10.0  # https://setuptools.pypa.io/en/latest/userguide/quickstart.html#install-build
 
 black==23.3.0
+coverage-badge==1.1.0
 isort==5.11.5
 pre-commit==2.21.0
 pytest==7.3.1
