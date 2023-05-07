@@ -22,10 +22,19 @@ repos:
       - id: prettier
         name: Make code pretty
 
+  # Import sorting
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        name: Sort Python import statements
+        args: ["--profile", "black", "--filter-files"]
+
   # Sourcery (refactoring)
   - repo: https://github.com/sourcery-ai/sourcery
     rev: v1.2.0
     hooks:
-    - id: sourcery
-      name: Check for refactoring opportunities
-      args: [--diff=git diff HEAD, --no-summary]
+      - id: sourcery
+        name: Check for refactoring opportunities
+        args: [--diff=git diff HEAD, --no-summary]
+        files: db_query_profiler
