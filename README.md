@@ -19,7 +19,7 @@
     update the coverage badge, run:
     ```
     pytest --cov=db_query_profiler
-    coverage-badge -o coverage.svg
+    coverage-badge -o coverage.svg -f
     ```
 )
 

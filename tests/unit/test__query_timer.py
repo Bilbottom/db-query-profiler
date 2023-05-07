@@ -1,4 +1,5 @@
 import contextlib
+import io
 from pathlib import Path
 
 import pytest  # noqa
@@ -58,7 +59,31 @@ def test__get_query_filepaths__with_warning(directory):
 #     assert [str(runner) for runner in actual] == [str(runner) for runner in expected]
 
 
-def test__time_queries(db_connection):
+def test__print_runner_stats(directory):
+    expected = [
+        "query-1.sql: 0.00000000 (0.0%)",
+        "query-2.sql: 0.00000000 (0.0%)",
+    ]
+
+    with contextlib.redirect_stdout(io.StringIO()) as stdout:
+        query_timer._print_runner_stats(
+            runners=[
+                query_timer.Runner(
+                    name="query-1.sql",
+                    runner=lambda: None,
+                ),
+                query_timer.Runner(
+                    name="query-2.sql",
+                    runner=lambda: None,
+                ),
+            ],
+        )
+    actual = stdout.getvalue().splitlines()
+
+    assert actual == expected
+
+
+def test__time_queries__with_error(db_connection):
     with pytest.raises(FileNotFoundError):
         query_timer.time_queries(
             conn=db_connection,
