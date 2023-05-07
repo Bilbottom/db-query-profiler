@@ -43,10 +43,12 @@ There should only be a single query in each file, and the file name will be used
 For the following examples, assume that there are 2 SQL files in the `queries` directory.
 
 ### SQLite Example
+
 > Official documentation: https://docs.python.org/3/library/sqlite3.html
 
 ```python
 import sqlite3
+
 import db_query_profiler
 
 
@@ -58,11 +60,48 @@ def main() -> None:
         directory="queries"
     )
 
-    
+
 if __name__ == "__main__":
     main()
 ```
 
+### Snowflake Example
+
+> Official documentation: https://docs.snowflake.com/en/developer-guide/python-connector/python-connector-example
+
+Some databases, like Snowflake, have [extra layers of caching](https://docs.snowflake.com/en/user-guide/querying-persisted-results) that can affect the results of the profiling. To avoid this and make the runtime comparisons more genuine, it's recommended to turn off these extra caching options (where this is supported).
+
+```python
+import db_query_profiler
+import snowflake.connector  # snowflake-connector-python
+
+
+# This dictionary is just for illustration purposes and
+# you should use whatever connection method you prefer
+CREDENTIALS = {
+    "user": "XXX",
+    "password": "XXX",
+    "account": "XXX",
+    "warehouse": "XXX",
+    "role": "XXX",
+    "database": "XXX",
+}
+
+
+def main() -> None:
+    db_cursor = snowflake.connector.SnowflakeConnection(**CREDENTIALS).cursor()
+    db_cursor.execute("""ALTER SESSION SET USE_CACHED_RESULT = FALSE;""")
+    db_query_profiler.time_queries(
+        conn=db_cursor,
+        repeat=5,
+        directory="queries",
+    )
+    db_cursor.execute("""ALTER SESSION SET USE_CACHED_RESULT = TRUE;""")
+
+
+if __name__ == "__main__":
+    main()
+```
 
 ## Warnings ⚠️
 
@@ -71,11 +110,14 @@ This package will open and run all the files in the specified directory, so be c
 This package only reads from the database, so it's encouraged to configure your database connection in a read-only way.
 
 ### SQLite
+
 > Official documentation:
+>
 > - https://docs.python.org/3/library/sqlite3.html#sqlite3.connect
 > - https://docs.python.org/3/library/sqlite3.html#how-to-work-with-sqlite-uris
 
 To connect to a SQLite database in a read-only way, use the `uri=True` parameter with `file:` and `?mode=ro` surrounding the database path when connecting:
+
 ```python
 db_conn = sqlite3.connect("file:path/to/database.db?mode=ro", uri=True)
 ```
