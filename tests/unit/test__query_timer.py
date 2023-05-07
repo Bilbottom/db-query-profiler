@@ -1,9 +1,9 @@
 import contextlib
 from pathlib import Path
 
-import pytest
+import pytest  # noqa
 
-import query_timer
+import db_query_profiler.query_timer as query_timer
 
 
 @pytest.mark.parametrize(

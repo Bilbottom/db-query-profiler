@@ -3,7 +3,7 @@ import shutil
 import time
 from pathlib import Path
 
-import query_timer
+import db_query_profiler
 
 
 def create_database_connection() -> sqlite3.Connection:
@@ -42,7 +42,7 @@ def main() -> None:
     directory = Path("tests/end-to-end/queries").absolute()
     end_to_end_directory_teardown(path=directory)
     end_to_end_directory_setup(path=directory)
-    query_timer.time_queries(directory=directory, repeat=5, conn=db_conn)
+    db_query_profiler.time_queries(conn=db_conn, repeat=5, directory=directory)
     end_to_end_directory_teardown(path=directory)
 
 
