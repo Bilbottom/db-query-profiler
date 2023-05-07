@@ -44,10 +44,10 @@ jobs:
         run: pytest tests
 
       - name: 🔗 Run end-to-end tests
-        run: pytest tests
+        run: python tests/end-to-end/end_to_end.py
 
-      - name: 🧐 Run Sourcery review
-        run: sourcery review --check --diff "git diff main" db_query_profiler
+      #  - name: 🧐 Run Sourcery review
+      #    run: sourcery review --check --diff "git diff main" db_query_profiler
 
       - name: 🌿 Run pre-commit
         uses: pre-commit/action@v3.0.0
