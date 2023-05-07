@@ -19,7 +19,9 @@ class DatabaseConnection(Protocol):
     """
 
     def execute(self, *args, **kwargs) -> Any:
-        """Execute a statement."""
+        """
+        Execute a statement.
+        """
 
 
 def _safe_divide(numerator: float, denominator: float) -> float:
@@ -30,6 +32,11 @@ def _safe_divide(numerator: float, denominator: float) -> float:
     Source:
 
     - https://stackoverflow.com/a/68118106/8213085
+
+    :param numerator: A float to be divided.
+    :param denominator: A float to divide by.
+    :return: The result of dividing ``numerator`` by ``denominator`` if
+     ``denominator`` is not 0, else 0.
     """
     return denominator and numerator / denominator
 
@@ -44,6 +51,10 @@ class Runner:
     """
 
     def __init__(self, runner: Callable, name: str):
+        """
+        :param runner: A function to be run when the object is called.
+        :param name: The name to give this runner.
+        """
         self.runner = runner
         self.name = name
 
@@ -107,6 +118,8 @@ def _get_query_filepaths(directory: Path) -> Generator:
 def execute_query(query: str, db_conn: DatabaseConnection) -> None:
     """
     Run the SQL query contained inside the file at the file path.
+
+    TODO: Replace with a lambda function.
     """
     db_conn.execute(query)
 
@@ -118,10 +131,15 @@ def _create_query_runners(
     """
     Return a list of ``Runners`` each corresponding to the files in the
     ``filepath``.
+
+    :param directory: The directory containing the SQL files to be run.
+    :param db_conn: The database connection to run the queries against.
+    :return: A list of ``Runner``s each corresponding to the files in the
+     ``directory``.
     """
     return [
         Runner(
-            # runner=lambda: db_conn.execute(file.read_text()),  # lambda is doing something weird
+            # runner=lambda: db_conn.execute(file.read_text()),  # lambda is only keeping the last query for each runner
             runner=functools.partial(
                 execute_query, query=file.read_text(), db_conn=db_conn
             ),
@@ -131,12 +149,36 @@ def _create_query_runners(
     ]
 
 
-def _print_runner_stats(list_of_runners: List[Runner]) -> None:
+def run_runners(runners: List[Runner], repeat: int) -> None:
     """
-    Print the average run times of the runners.
+    Run the ``runners`` ``repeat`` times.
+
+    This will always run the runners once before the repeat loop to set up
+    the temp tables in the database (there's no way to avoid these implicit
+    tables).
+
+    :param runners: The list of ``Runner``s to run.
+    :param repeat: The number of times to run the ``runners``.
     """
-    total_avg_time = sum(runner.average_time for runner in list_of_runners)
-    [print(runner.format_runtime(total_avg_time)) for runner in list_of_runners]
+    # Set the 'temp' tables
+    for runner in runners:
+        runner(time_it=False)
+
+    # Keep running them 'side-by-side' to account for database traffic
+    for _ in tqdm.trange(repeat):
+        for runner in runners:
+            runner()
+
+
+def _print_runner_stats(runners: List[Runner]) -> None:
+    """
+    Print the average run times of the ``runners``.
+
+    :param runners: The list of ``Runner``s to run.
+    """
+    total_avg_time = sum(runner.average_time for runner in runners)
+    for runner in runners:
+        print(runner.format_runtime(total_avg_time))
 
 
 def _print_times() -> Callable:
@@ -160,33 +202,31 @@ def _print_times() -> Callable:
 
 @_print_times()
 def time_queries(
-    directory: Union[str, Path],
-    repeat: int,
+    # This API is likely to change in the future, so requiring kwargs makes
+    # changes to the API less likely to break downstream usage in the future
+    *,
     conn: DatabaseConnection,
+    repeat: int,
+    directory: Union[str, Path],
 ) -> None:
     """
     Time the SQL queries in the directory and print the results.
 
-    :param directory: The path to the directory containing the SQL queries.
+    :param conn: The database connector. Must implement an ``execute``
+     method.
     :param repeat: The number of times to run each query. Note that the
      queries will all be run once before the repeat loop to set up the temp
      tables in the database (there's no way to avoid these implicit tables).
-    :param conn: The database connector. Must implement an ``execute``
-     method.
+    :param directory: The path to the directory containing the SQL queries.
     """
     directory = Path(directory)
+    if not directory.exists():
+        raise FileNotFoundError(f"Directory '{directory}' does not exist.")
+
     runners: List[Runner] = _create_query_runners(
         directory=directory,
         db_conn=conn,
     )
 
-    # Set the 'temp' tables
-    for runner in runners:
-        runner(time_it=False)
-
-    # Keep running them 'side-by-side' to account for database traffic
-    for _ in tqdm.trange(repeat):
-        for runner in runners:
-            runner()
-
-    _print_runner_stats(list_of_runners=runners)
+    run_runners(runners=runners, repeat=repeat)
+    _print_runner_stats(runners=runners)

@@ -56,3 +56,12 @@ def test__get_query_filepaths__with_warning(directory):
 #     # The underlying functions have different memory addresses, so we can't
 #     # rely on the `__repr__` that is implicitly called.
 #     assert [str(runner) for runner in actual] == [str(runner) for runner in expected]
+
+
+def test__time_queries(db_connection):
+    with pytest.raises(FileNotFoundError):
+        query_timer.time_queries(
+            conn=db_connection,
+            repeat=1,
+            directory="some-dir-that-does-not-exist",
+        )
