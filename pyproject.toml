@@ -12,3 +12,6 @@ addopts = "--cov=db_query_profiler"
 testpaths = [
     "tests",
 ]
+
+[tool.isort]
+profile = "black"

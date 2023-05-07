@@ -8,9 +8,9 @@ import timeit
 import warnings
 from pathlib import Path
 from typing import Any, Callable, Generator, List, Union
-from typing_extensions import Protocol
 
 import tqdm
+from typing_extensions import Protocol
 
 
 class DatabaseConnection(Protocol):
