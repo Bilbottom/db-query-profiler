@@ -8,13 +8,48 @@ on:
       - "tests/**"
 
 jobs:
-  tests-and-formatting:
-    name: Run tests and check formatting
+  linting-and-formatting:
+    name: Run linters and check formatting
+    runs-on: windows-latest
+    steps:
+      - name: 🛎️ Check out repository
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: pip
+
+      - name: 🔨 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install .
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: 🔮 Log in to Sourcery
+        shell: bash
+        env:
+          SOURCERY_TOKEN: ${{ secrets.SOURCERY_TOKEN }}
+        run: |
+          sourcery login --token "$SOURCERY_TOKEN"
+
+      #  - name: 🧐 Run Sourcery review
+      #    run: sourcery review --check --diff "git diff main" db_query_profiler
+
+      - name: 🌿 Run pre-commit
+        uses: pre-commit/action@v3.0.0
+
+  version-testing:
+    name: Run tests over multiple Python and OS versions
+    needs:
+      - linting-and-formatting
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: ["windows-latest"] # ["windows-latest", "macos-latest", "ubuntu-latest"]
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
 
     steps:
       - name: 🛎️ Check out repository
@@ -33,21 +68,8 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
 
-      - name: 🔮 Log in to Sourcery
-        shell: bash
-        env:
-          SOURCERY_TOKEN: ${{ secrets.SOURCERY_TOKEN }}
-        run: |
-          sourcery login --token "$SOURCERY_TOKEN"
-
       - name: ✅ Run unit tests
         run: pytest tests
 
       - name: 🔗 Run end-to-end tests
         run: python tests/end-to-end/end_to_end.py
-
-      #  - name: 🧐 Run Sourcery review
-      #    run: sourcery review --check --diff "git diff main" db_query_profiler
-
-      - name: 🌿 Run pre-commit
-        uses: pre-commit/action@v3.0.0
