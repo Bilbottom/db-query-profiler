@@ -1,8 +1,10 @@
+[project]
+name = "db_query_profiler"
+version = "0.0.1"
+dependencies = ["tqdm", "typing-extensions"]
+
 [build-system]
-requires = [
-    "setuptools >= 47.6",
-    "wheel",
-]
+requires = ["setuptools >= 47.6"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
