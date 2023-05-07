@@ -67,7 +67,7 @@ The package exposes a single function, `time_queries`, which currently requires:
 
 There should only be a single query in each file, and the file name will be used as the query name in the output.
 
-For the following examples, assume that there are 2 SQL files in the `queries` directory.
+For the following examples, assume that there are SQL files in the `queries` directory.
 
 ### SQLite Example
 
