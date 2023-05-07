@@ -59,7 +59,7 @@ End time: 2023-05-07 12:38:08.757555
 
 ## Usage 📖
 
-The package exposes a single method, `time_queries`, which currently requires:
+The package exposes a single function, `time_queries`, which currently requires:
 
 1. A database connection/cursor class that implements an `execute` method.
 2. The number of times to re-run each query.
@@ -116,14 +116,16 @@ CREDENTIALS = {
 
 
 def main() -> None:
-    db_cursor = snowflake.connector.SnowflakeConnection(**CREDENTIALS).cursor()
-    db_cursor.execute("""ALTER SESSION SET USE_CACHED_RESULT = FALSE;""")
-    db_query_profiler.time_queries(
-        conn=db_cursor,
-        repeat=5,
-        directory="queries",
-    )
-    db_cursor.execute("""ALTER SESSION SET USE_CACHED_RESULT = TRUE;""")
+    db_conn = snowflake.connector.SnowflakeConnection(**CREDENTIALS)
+    with db_conn.cursor() as cursor:
+        cursor.execute("""ALTER SESSION SET USE_CACHED_RESULT = FALSE;""")
+        db_query_profiler.time_queries(
+            conn=cursor,
+            repeat=5,
+            directory="queries",
+        )
+        cursor.execute("""ALTER SESSION SET USE_CACHED_RESULT = TRUE;""")
+    db_conn.close()
 
 
 if __name__ == "__main__":
