@@ -32,7 +32,7 @@ def test__runner__repr(runner_1: Runner):
     just tests the returned ``__repr__`` pattern.
     """
     expected = re.compile(
-        r"Runner\(runner=<function runner_1\.<locals>\.<lambda> at 0x[0-9a-z]{,12}>, name='query-1\.sql'\)"
+        r"Runner\(runner=<function runner_1\.<locals>\.<lambda> at 0x[a-zA-Z0-9]+>, name='query-1\.sql'\)"
     )
     actual = repr(runner_1)
 
