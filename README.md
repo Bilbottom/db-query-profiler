@@ -21,12 +21,14 @@ Lightweight database query profiler.
 
 This tool is database-agnostic -- just provide a class that connects to your database with an `execute` method, and the queries that you want to profile.
 
+**_This is NOT a replacement for analysing the [query plan](https://en.wikipedia.org/wiki/Query_plan). This should just support the analysis done with it._**
+
 ## Installation ⬇️
 
 This is currently only available on GitHub, so you'll need to supply the GitHub URL to `pip`:
 
 ```
-pip install git+https://github.com/Bilbottom/db-query-profiler.git
+pip install git+https://github.com/Bilbottom/db-query-profiler@v0.0.1
 ```
 
 ## Sample Output 📝
