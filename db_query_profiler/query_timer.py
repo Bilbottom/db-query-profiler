@@ -62,7 +62,7 @@ class Runner:
         self.total_time: float = 0.0
 
     def __repr__(self):
-        return f"Runner(runner={self.runner}, name={self.name})"
+        return f"Runner(runner={self.runner}, name='{self.name}')"
 
     def __str__(self):
         sig = inspect.signature(self.runner)
