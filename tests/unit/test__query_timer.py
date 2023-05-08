@@ -5,6 +5,54 @@ from pathlib import Path
 import pytest  # noqa
 
 import db_query_profiler.query_timer as query_timer
+from db_query_profiler.query_timer import Runner
+
+
+@pytest.fixture
+def runner_1():
+    return Runner(
+        runner=lambda: None,
+        name="query-1.sql",
+    )
+
+
+@pytest.fixture
+def runner_2():
+    return Runner(
+        runner=lambda: None,
+        name="query-2.sql",
+    )
+
+
+def test__runner__call_without_timeit(runner_1: Runner):
+    """
+    Calling a Runner changes the property values.
+    """
+    runner_1(time_it=False)
+
+    assert runner_1.repeat == 0
+    assert runner_1.total_time == 0
+
+
+def test__runner__call_with_timeit(runner_1: Runner):
+    """
+    Calling a Runner changes the property values.
+    """
+    runner_1(time_it=True)
+
+    assert runner_1.repeat == 1
+    assert runner_1.total_time > 0
+
+
+def test__runner__average_time(runner_1: Runner):
+    """
+    Calling a Runner changes the property values.
+    """
+    for _ in range(3):
+        runner_1(time_it=True)
+
+    assert runner_1.repeat == 3
+    assert runner_1.average_time == (runner_1.total_time / runner_1.repeat)
 
 
 @pytest.mark.parametrize(
