@@ -1,4 +1,3 @@
-
 <div align="center">
 
 [![Python 3.7](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
@@ -13,15 +12,6 @@
 [![Sourcery](https://img.shields.io/badge/Sourcery-enabled-brightgreen)](https://sourcery.ai)
 
 </div>
-
-[//]: # (
-    The coverage is the only one that needs to be updates manually. To
-    update the coverage badge, run:
-    ```
-    pytest --cov=db_query_profiler
-    coverage-badge -o coverage.svg -f
-    ```
-)
 
 ---
 
