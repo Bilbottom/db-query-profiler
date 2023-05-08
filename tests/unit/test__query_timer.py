@@ -1,5 +1,6 @@
 import contextlib
 import io
+import re
 from pathlib import Path
 
 import pytest  # noqa
@@ -22,6 +23,20 @@ def runner_2():
         runner=lambda: None,
         name="query-2.sql",
     )
+
+
+def test__runner__repr(runner_1: Runner):
+    """
+    This should test that runner's ``__repr__`` creates an identical object,
+    but passing in a lambda/partial is making this fiddly. Instead, this
+    just tests the returned ``__repr__`` pattern.
+    """
+    expected = re.compile(
+        r"Runner\(runner=<function runner_1\.<locals>\.<lambda> at 0x[a-zA-Z0-9]+>, name='query-1\.sql'\)"
+    )
+    actual = repr(runner_1)
+
+    assert expected.match(actual)
 
 
 def test__runner__call_without_timeit(runner_1: Runner):
