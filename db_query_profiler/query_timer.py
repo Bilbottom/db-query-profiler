@@ -87,15 +87,16 @@ class Runner:
 
     def format_runtime(self, total_avg_time: float) -> str:
         """
-        Return a string containing the name and average time of this runner.
+        Return a string containing the name and average time, in seconds, of
+        this runner.
 
         This will additionally include the average time of this runner as a
         percentage of the average time of all runners for comparison.
 
-        :param total_avg_time: The average time of all runners to use as the
-         denominator for the percentage calculation.
+        :param total_avg_time: The average time, in seconds, of all runners
+         to use as the denominator for the percentage calculation.
         """
-        return f"{self.name}: {self.average_time:.8f} ({_safe_divide(self.average_time, total_avg_time):.1%})"
+        return f"{self.name}: {self.average_time:.8f}s ({_safe_divide(self.average_time, total_avg_time):.1%})"
 
 
 def _get_query_filepaths(directory: Path) -> Generator:
@@ -211,6 +212,19 @@ def time_queries(
 ) -> None:
     """
     Time the SQL queries in the directory and print the results.
+
+    .. warning::
+        This function's signature is likely to change in a later release, so
+        to avoid breaking downstream usage, this function currently requires
+        the use of keyword arguments::
+
+            from db_query_profiler import time_queries
+
+            time_queries(
+                conn=your_database_connection,
+                repeat=10,
+                directory="path/to/your/sql/files",
+            )
 
     :param conn: The database connector. Must implement an ``execute``
      method.

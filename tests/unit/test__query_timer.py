@@ -124,8 +124,8 @@ def test__get_query_filepaths__with_warning(directory):
 
 def test__print_runner_stats(directory):
     expected = [
-        "query-1.sql: 0.00000000 (0.0%)",
-        "query-2.sql: 0.00000000 (0.0%)",
+        "query-1.sql: 0.00000000s (0.0%)",
+        "query-2.sql: 0.00000000s (0.0%)",
     ]
 
     with contextlib.redirect_stdout(io.StringIO()) as stdout:
