@@ -116,7 +116,7 @@ def _get_query_filepaths(directory: Path) -> Generator:
             yield path
 
 
-def execute_query(query: str, db_conn: DatabaseConnection) -> None:
+def _execute_query(query: str, db_conn: DatabaseConnection) -> None:
     """
     Run the SQL query contained inside the file at the file path.
 
@@ -142,7 +142,7 @@ def _create_query_runners(
         Runner(
             # runner=lambda: db_conn.execute(file.read_text()),  # lambda is only keeping the last query for each runner
             runner=functools.partial(
-                execute_query, query=file.read_text(), db_conn=db_conn
+                _execute_query, query=file.read_text(), db_conn=db_conn
             ),
             name=file.name,
         )
@@ -150,7 +150,7 @@ def _create_query_runners(
     ]
 
 
-def run_runners(runners: List[Runner], repeat: int) -> None:
+def _run_runners(runners: List[Runner], repeat: int) -> None:
     """
     Run the ``runners`` ``repeat`` times.
 
@@ -242,5 +242,5 @@ def time_queries(
         db_conn=conn,
     )
 
-    run_runners(runners=runners, repeat=repeat)
+    _run_runners(runners=runners, repeat=repeat)
     _print_runner_stats(runners=runners)
