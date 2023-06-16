@@ -16,11 +16,11 @@ def directory():
     Create a directory with two files in it, and a subdirectory with one
     file in it.
 
-    The subdirectory is to test that the functions only look at the files in
-    *their* directory, and not the files in any subdirectory.
+    The subdirectory tests that the functions only look at the files in
+    _their_ directory, and not the files in any subdirectory.
     """
-    directory = Path("tests/unit/dummy-directory").absolute()
-    subdirectory = directory / "sub-directory"
+    directory = Path("tests/unit/test-directory").absolute()
+    subdirectory = directory / "subdirectory"
 
     shutil.rmtree(directory, ignore_errors=True)
     directory.mkdir()
