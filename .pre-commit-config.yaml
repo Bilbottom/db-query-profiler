@@ -25,7 +25,12 @@ repos:
       - id: prettier
         name: Make code pretty
 
-  # Import sorting
+  - repo: https://github.com/psf/black
+    rev: 23.3.0
+    hooks:
+      - id: black
+        name: Check Python formatting
+
   - repo: https://github.com/pycqa/isort
     rev: 5.11.5
     hooks:
@@ -33,7 +38,7 @@ repos:
         name: Sort Python import statements
         args: ["--profile", "black", "--filter-files"]
 
-  # Sourcery (refactoring)
+  # Refactoring
   - repo: https://github.com/sourcery-ai/sourcery
     rev: v1.2.0
     hooks:
