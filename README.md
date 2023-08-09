@@ -1,7 +1,7 @@
 <div align="center">
 
 [![Python 3.7](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
-[![Tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/Application-Tests.yaml)
+[![Tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml)
 [![coverage](coverage.svg)](https://github.com/dbrgn/coverage-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Bilbottom/db-query-profiler)
 
@@ -43,8 +43,8 @@ A typical output will look something like this:
 Start time: 2023-05-07 12:38:06.879738
 ----------------------------------------
 100%|██████████| 5/5 [00:01<00:00,  3.29it/s]
-query-1.sql: 0.10063192 (33.4%)
-query-2.sql: 0.20044784 (66.6%)
+query-1.sql: 0.10063192s (33.4%)
+query-2.sql: 0.20044784s (66.6%)
 ----------------------------------------
 End time: 2023-05-07 12:38:08.757555
 ```
