@@ -1,4 +1,4 @@
-name: application-tests
+name: Application Tests
 run-name: Application tests 🧪
 
 on:
@@ -6,6 +6,7 @@ on:
     paths:
       - "db_query_profiler/**"
       - "tests/**"
+      - requirements*.txt
 
 jobs:
   linting-and-formatting:
@@ -69,7 +70,7 @@ jobs:
           pip install -r requirements-dev.txt
 
       - name: ✅ Run unit tests
-        run: pytest tests
+        run: pytest
 
       - name: 🔗 Run end-to-end tests
         run: python tests/end-to-end/end_to_end.py
