@@ -5,6 +5,7 @@ repos:
   - repo: meta
     hooks:
       - id: identity
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
@@ -17,6 +18,12 @@ repos:
         name: Check that file end with a newline character
       - id: check-added-large-files
         name: Check for large files
+      - id: check-json
+        name: Check JSON files are valid and parseable
+      - id: check-yaml
+        name: Check YAML files are valid and parseable
+      - id: check-ast
+        name: Validate Python
 
   # Formatting
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -25,12 +32,12 @@ repos:
       - id: prettier
         name: Make code pretty
 
-  - repo: https://github.com/hadialqattan/pycln
-    rev: v2.2.1
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.3.2
     hooks:
-      - id: pycln
-        name: Remove unused imports and variables
-        args: [--config=pyproject.toml]
+      - id: pyupgrade
+        args: [--py37-plus]
+        name: Align Python code to latest syntax
 
   - repo: https://github.com/psf/black
     rev: 23.3.0
@@ -44,6 +51,13 @@ repos:
       - id: isort
         name: Sort Python import statements
         args: ["--profile", "black", "--filter-files"]
+
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v2.2.1
+    hooks:
+      - id: pycln
+        name: Remove unused imports and variables
+        args: [--config=pyproject.toml]
 
   # Refactoring
   - repo: https://github.com/sourcery-ai/sourcery
