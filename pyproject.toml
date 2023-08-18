@@ -7,6 +7,7 @@ dependencies = ["tqdm", "typing-extensions"]
 requires = ["setuptools >= 47.6"]
 build-backend = "setuptools.build_meta"
 
+
 [tool.pytest.ini_options]
 addopts = "--cov=db_query_profiler"
 testpaths = [
@@ -15,3 +16,9 @@ testpaths = [
 
 [tool.isort]
 profile = "black"
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.MASTER]
+ignore = "tests"

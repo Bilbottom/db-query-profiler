@@ -6,6 +6,15 @@ repos:
     hooks:
       - id: identity
 
+  - repo: local
+    hooks:
+      - id: pylint
+        name: Lint Python code with pylint
+        entry: pylint
+        language: system
+        types: [python]
+        args: ["-rn", "--rcfile=pyproject.toml"]
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
