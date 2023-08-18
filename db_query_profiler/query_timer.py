@@ -1,5 +1,5 @@
 """
-Query profiling.
+A module for timing SQL queries.
 """
 import datetime
 import functools
