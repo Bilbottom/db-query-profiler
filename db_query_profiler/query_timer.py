@@ -4,9 +4,9 @@ A module for timing SQL queries.
 import datetime
 import functools
 import inspect
+import pathlib
 import timeit
 import warnings
-from pathlib import Path
 from typing import Any, Callable, Generator, List, Union
 
 import tqdm
@@ -99,7 +99,7 @@ class Runner:
         return f"{self.name}: {self.average_time:.8f}s ({_safe_divide(self.average_time, total_avg_time):.1%})"
 
 
-def _get_query_filepaths(directory: Path) -> Generator:
+def _get_query_filepaths(directory: pathlib.Path) -> Generator:
     """
     Return the full file name paths of the files at ``directory``.
 
@@ -126,7 +126,7 @@ def _execute_query(query: str, db_conn: DatabaseConnection) -> None:
 
 
 def _create_query_runners(
-    directory: Path,
+    directory: pathlib.Path,
     db_conn: DatabaseConnection,
 ) -> List[Runner]:
     """
@@ -208,7 +208,7 @@ def time_queries(
     *,
     conn: DatabaseConnection,
     repeat: int,
-    directory: Union[str, Path],
+    directory: Union[str, pathlib.Path],
 ) -> None:
     """
     Time the SQL queries in the directory and print the results.
@@ -233,7 +233,7 @@ def time_queries(
      tables in the database (there's no way to avoid these implicit tables).
     :param directory: The path to the directory containing the SQL queries.
     """
-    directory = Path(directory)
+    directory = pathlib.Path(directory)
     if not directory.exists():
         raise FileNotFoundError(f"Directory '{directory}' does not exist.")
 
