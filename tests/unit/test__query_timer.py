@@ -89,7 +89,7 @@ def test__get_query_filepaths(directory):
     ]
     actual = list(query_timer._get_query_filepaths(directory))
 
-    assert actual == expected
+    assert sorted(actual) == sorted(expected)
 
 
 def test__get_query_filepaths__with_warning(directory):
