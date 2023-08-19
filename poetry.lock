@@ -512,18 +512,6 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[l
 testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
-name = "sourcery"
-version = "1.7.0"
-description = "Magically refactor Python"
-optional = false
-python-versions = "*"
-files = [
-    {file = "sourcery-1.7.0-py2.py3-none-macosx_10_9_universal2.whl", hash = "sha256:c6a3259b80fe7bbd9138562fb8a57cb077e9076c8113444c671e6cdfe43435aa"},
-    {file = "sourcery-1.7.0-py2.py3-none-manylinux1_x86_64.whl", hash = "sha256:7ccb7ecb0fc6ca88346e1ecb590f77b8d60bb5781523a19da6eb26ffa8655e9d"},
-    {file = "sourcery-1.7.0-py2.py3-none-win_amd64.whl", hash = "sha256:485d3115300c29da80bae2909051b25a233164311c0e59e2c03add7a488e7a10"},
-]
-
-[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
@@ -738,4 +726,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.7"
-content-hash = "5c76873312ba5ac49b7d63e83052458c963c7b6fb670a59e139bc55db618c56a"
+content-hash = "e537768ed71b928d32fbcd228bec1f6214ce7a821b205d0cc2586ee64c9bdf0d"

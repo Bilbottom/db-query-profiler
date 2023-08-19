@@ -23,7 +23,6 @@ optional = true
 coverage-badge = "^1.1.0"
 pre-commit = "^2.21.0"
 pylint = "2.13.9"
-sourcery = "^1.7.0"
 
 [tool.poetry.group.test]
 optional = true

@@ -67,13 +67,3 @@ repos:
       - id: pycln
         name: Remove unused imports and variables
         args: [--config=pyproject.toml]
-
-  # Refactoring
-  - repo: https://github.com/sourcery-ai/sourcery
-    rev: v1.2.0
-    hooks:
-      - id: sourcery
-        name: Check for refactoring opportunities
-        args: [--diff=git diff HEAD, --no-summary]
-        files: db_query_profiler
-        exclude: \.*/__init__\.py
