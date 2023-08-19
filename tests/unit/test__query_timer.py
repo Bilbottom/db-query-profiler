@@ -102,24 +102,25 @@ def test__get_query_filepaths__with_warning(directory):
     file_path.unlink()
 
 
-# def test__create_query_runners(db_connection, directory):
-#     expected = [
-#         query_timer.Runner(
-#             name="query-1.sql",
-#             runner=lambda: db_connection.execute(""),
-#         ),
-#         query_timer.Runner(
-#             name="query-2.sql",
-#             runner=lambda: db_connection.execute(""),
-#         ),
-#     ]
-#     actual = query_timer._create_query_runners(
-#         directory=directory, db_conn=db_connection
-#     )
-#
-#     # The underlying functions have different memory addresses, so we can't
-#     # rely on the `__repr__` that is implicitly called.
-#     assert [str(runner) for runner in actual] == [str(runner) for runner in expected]
+@pytest.mark.skip(reason="Currently, can't compare runner functions.")
+def test__create_query_runners(db_connection, directory):
+    expected = [
+        query_timer.Runner(
+            name="query-1.sql",
+            runner=lambda: db_connection.execute(""),
+        ),
+        query_timer.Runner(
+            name="query-2.sql",
+            runner=lambda: db_connection.execute(""),
+        ),
+    ]
+    actual = query_timer._create_query_runners(
+        directory=directory, db_conn=db_connection
+    )
+
+    # The underlying functions have different memory addresses, so we can't
+    # rely on the `__repr__` that is implicitly called.
+    assert [str(runner) for runner in actual] == [str(runner) for runner in expected]
 
 
 def test__print_runner_stats(directory):
