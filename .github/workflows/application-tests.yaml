@@ -2,6 +2,7 @@ name: Application Tests
 run-name: Application tests 🧪
 
 on:
+  workflow_dispatch:
   pull_request:
     paths:
       - "db_query_profiler/**"
