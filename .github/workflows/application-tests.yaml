@@ -12,8 +12,6 @@ on:
 jobs:
   version-testing:
     name: Run tests over multiple Python and OS versions
-    needs:
-      - linting-and-formatting
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
