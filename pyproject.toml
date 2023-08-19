@@ -1,11 +1,36 @@
-[project]
+[tool.poetry]
 name = "db_query_profiler"
-version = "0.0.1"
-dependencies = ["tqdm", "typing-extensions"]
+version = "0.0.2"
+description = "Lightweight database query profiler."
+authors = ["Bilbottom"]
+readme = "README.md"
+packages = [{include = "db_query_profiler"}]
 
 [build-system]
-requires = ["setuptools >= 47.6"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+tqdm = "^4"
+typing-extensions = "^4"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+coverage-badge = "^1.1.0"
+pre-commit = "^2.21.0"
+pylint = "2.13.9"
+sourcery = "^1.7.0"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
 
 
 [tool.pytest.ini_options]
@@ -14,8 +39,10 @@ testpaths = [
     "tests",
 ]
 
+
 [tool.isort]
 profile = "black"
+
 
 [tool.pylint.format]
 max-line-length = 120
