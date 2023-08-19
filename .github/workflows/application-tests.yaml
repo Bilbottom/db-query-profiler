@@ -12,8 +12,6 @@ on:
 jobs:
   version-testing:
     name: Run tests over multiple Python and OS versions
-    needs:
-      - linting-and-formatting
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -37,7 +35,7 @@ jobs:
         run: poetry install --with test
 
       - name: ✅ Run unit tests
-        run: pytest
+        run: poetry run pytest
 
       - name: 🔗 Run end-to-end tests
-        run: python tests/end-to-end/end_to_end.py
+        run: poetry run python tests/end-to-end/end_to_end.py
