@@ -39,33 +39,33 @@ repos:
 
   # Formatting
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.0
+    rev: v3.0.2
     hooks:
       - id: prettier
         name: Make code pretty
 
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.2
+    rev: v3.10.1
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
         name: Align Python code to latest syntax
 
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
       - id: black
         name: Check Python formatting
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.11.5
+    rev: 5.12.0
     hooks:
       - id: isort
         name: Sort Python import statements
         args: ["--profile", "black", "--filter-files"]
 
   - repo: https://github.com/hadialqattan/pycln
-    rev: v2.2.1
+    rev: v2.2.2
     hooks:
       - id: pycln
         name: Remove unused imports and variables
