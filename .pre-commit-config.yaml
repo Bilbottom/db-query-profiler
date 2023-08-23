@@ -3,6 +3,7 @@ ci:
   skip: [poetry-lock, sourcery, pylint, pytest, coverage-badge]
 
 default_install_hook_types: [pre-commit, post-commit]
+default_stages: [commit]
 
 repos:
   - repo: meta
@@ -102,7 +103,6 @@ repos:
         entry: pytest tests
         language: system
         pass_filenames: false
-        stages: [commit]
         always_run: true
       - id: coverage-badge
         name: Generate coverage badge
