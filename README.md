@@ -1,7 +1,8 @@
 <div align="center">
 
-[![Python 3.7](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
-[![Tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml)
+[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![application-tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml)
 [![coverage](coverage.svg)](https://github.com/dbrgn/coverage-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Bilbottom/db-query-profiler)
 
@@ -9,6 +10,7 @@
 [![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Bilbottom/db-query-profiler/main.svg)](https://results.pre-commit.ci/latest/github/Bilbottom/db-query-profiler/main)
+[![Sourcery](https://img.shields.io/badge/Sourcery-enabled-brightgreen)](https://sourcery.ai)
 
 </div>
 
