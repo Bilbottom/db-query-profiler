@@ -1,3 +1,8 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
 [tool.poetry]
 name = "db_query_profiler"
 version = "0.0.2"
@@ -5,11 +10,6 @@ description = "Lightweight database query profiler."
 authors = ["Bilbottom"]
 readme = "README.md"
 packages = [{include = "db_query_profiler"}]
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -33,7 +33,7 @@ pytest-cov = "^4.1.0"
 
 
 [tool.pytest.ini_options]
-addopts = "--cov=db_query_profiler"
+addopts = "--cov=db_query_profiler --cov-report=term-missing --cov-fail-under=70"
 testpaths = [
     "tests",
 ]
