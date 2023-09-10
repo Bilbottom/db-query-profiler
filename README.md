@@ -143,3 +143,16 @@ To connect to a SQLite database in a read-only way, use the `uri=True` parameter
 ```python
 db_conn = sqlite3.connect("file:path/to/database.db?mode=ro", uri=True)
 ```
+
+## Contributing 🤝
+
+The Python packaging is managed with [Poetry](https://python-poetry.org/) (check which version in the [poetry.lock](poetry.lock) file), but that should be the only dependency.
+
+To get started, just clone the repo, install the dependencies, and enable [pre-commit](https://pre-commit.com/):
+
+```bash
+poetry install --sync --with dev,test
+pre-commit install --install-hooks
+```
+
+Happy coding! 🎉
