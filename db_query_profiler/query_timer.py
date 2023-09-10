@@ -23,7 +23,7 @@ class DatabaseConnection(Protocol):
     Database connector to run SQL against the database.
     """
 
-    def execute(self, *args, **kwargs) -> Any:
+    def execute(self, *args: Any, **kwargs: Any) -> Any:
         """
         Execute a statement.
         """
@@ -147,7 +147,9 @@ def _create_query_runners(
         Runner(
             # runner=lambda: db_conn.execute(file.read_text()),  # lambda is only keeping the last query for each runner
             runner=functools.partial(
-                _execute_query, query=file.read_text(), db_conn=db_conn
+                _execute_query,
+                query=file.read_text(),
+                db_conn=db_conn,
             ),
             name=file.name,
         )
