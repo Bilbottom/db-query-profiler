@@ -5,12 +5,17 @@ import datetime
 import functools
 import inspect
 import pathlib
+import sys
 import timeit
 import warnings
 from typing import Any, Callable, Generator, List, Union
 
 import tqdm
-from typing_extensions import Protocol
+
+if sys.version_info[:3] >= (3, 8, 0):
+    from typing import Protocol
+else:
+    from typing_extensions import Protocol
 
 
 class DatabaseConnection(Protocol):
