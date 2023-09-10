@@ -14,7 +14,7 @@ packages = [{include = "db_query_profiler"}]
 [tool.poetry.dependencies]
 python = "^3.7"
 tqdm = "^4"
-typing-extensions = "^4"
+typing-extensions = { version = "^4", python = "<3.8" }
 
 [tool.poetry.group.dev]
 optional = true
