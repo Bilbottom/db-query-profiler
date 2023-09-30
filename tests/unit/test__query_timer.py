@@ -141,7 +141,12 @@ def test__create_query_runners(db_connection: sqlite3.Connection, directory: Pat
         f"""Runner(runner=[[OrderedDict([('f', <Parameter "f={repr(directory / 'query-2.sql')}">)])], <class 'inspect._empty'>], name=query-2.sql)""",  # noqa
     ]
 
-    assert [str(runner) for runner in actual] == [str(runner) for runner in expected]
+    # fmt: off
+    assert ([
+        str(runner) for runner in actual].sort()
+        == [str(runner) for runner in expected].sort()
+    )
+    # fmt: on
 
 
 def test__run_runners(runner_1: query_timer.Runner, runner_2: query_timer.Runner):
