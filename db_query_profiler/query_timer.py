@@ -23,7 +23,7 @@ class DatabaseConnection(Protocol):
     Database connector to run SQL against the database.
     """
 
-    def execute(self, *args: Any, **kwargs: Any) -> Any:
+    def execute(self) -> Any:
         """
         Execute a statement.
         """
@@ -121,15 +121,6 @@ def _get_query_filepaths(directory: pathlib.Path) -> Generator:
             yield path
 
 
-def _execute_query(query: str, db_conn: DatabaseConnection) -> None:
-    """
-    Run the SQL query contained inside the file at the file path.
-
-    TODO: Replace with a lambda function.
-    """
-    db_conn.execute(query)
-
-
 def _create_query_runners(
     directory: pathlib.Path,
     db_conn: DatabaseConnection,
@@ -143,14 +134,15 @@ def _create_query_runners(
     :return: A list of ``Runner``s each corresponding to the files in the
      ``directory``.
     """
+    # Closures in Python capture _variables_, not _values_, so the `file`
+    # variable by itself would be the last file in the directory for each
+    # lambda. This is why we need to use the variable `f` to 'freeze' the
+    # value of the `file` variable.
+    #
+    # https://docs.python.org/3/faq/programming.html#why-do-lambdas-defined-in-a-loop-with-different-values-all-return-the-same-result
     return [
         Runner(
-            # runner=lambda: db_conn.execute(file.read_text()),  # lambda is only keeping the last query for each runner
-            runner=functools.partial(
-                _execute_query,
-                query=file.read_text(),
-                db_conn=db_conn,
-            ),
+            runner=lambda f=file: db_conn.execute(f.read_text()),  # noqa
             name=file.name,
         )
         for file in _get_query_filepaths(directory)
