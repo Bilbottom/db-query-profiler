@@ -1,17 +1,19 @@
+"""
+Unit tests for the ``db_query_profiler.query_timer`` module.
+"""
 import contextlib
 import io
 import re
 from pathlib import Path
 
-import pytest  # noqa
+import pytest
 
 import db_query_profiler.query_timer as query_timer
-from db_query_profiler.query_timer import Runner
 
 
 @pytest.fixture
 def runner_1():
-    return Runner(
+    return query_timer.Runner(
         runner=lambda: None,
         name="query-1.sql",
     )
@@ -19,13 +21,13 @@ def runner_1():
 
 @pytest.fixture
 def runner_2():
-    return Runner(
+    return query_timer.Runner(
         runner=lambda: None,
         name="query-2.sql",
     )
 
 
-def test__runner__repr(runner_1: Runner):
+def test__runner__repr(runner_1: query_timer.Runner):
     """
     This should test that runner's ``__repr__`` creates an identical object,
     but passing in a lambda/partial is making this fiddly. Instead, this
@@ -39,9 +41,10 @@ def test__runner__repr(runner_1: Runner):
     assert expected.match(actual)
 
 
-def test__runner__call_without_timeit(runner_1: Runner):
+def test__runner__call_without_timeit(runner_1: query_timer.Runner):
     """
-    Calling a Runner changes the property values.
+    Test that calling a Runner without ``time_it`` doesn't change the
+    property values.
     """
     runner_1(time_it=False)
 
@@ -49,9 +52,9 @@ def test__runner__call_without_timeit(runner_1: Runner):
     assert runner_1.total_time == 0
 
 
-def test__runner__call_with_timeit(runner_1: Runner):
+def test__runner__call_with_timeit(runner_1: query_timer.Runner):
     """
-    Calling a Runner changes the property values.
+    Test that calling a Runner with ``time_it`` changes the property values.
     """
     runner_1(time_it=True)
 
@@ -59,9 +62,9 @@ def test__runner__call_with_timeit(runner_1: Runner):
     assert runner_1.total_time > 0
 
 
-def test__runner__average_time(runner_1: Runner):
+def test__runner__average_time(runner_1: query_timer.Runner):
     """
-    Calling a Runner changes the property values.
+    Test that the Runner's ``average_time`` time is computed correctly.
     """
     for _ in range(3):
         runner_1(time_it=True)
@@ -79,10 +82,16 @@ def test__runner__average_time(runner_1: Runner):
     ],
 )
 def test__safe_divide(numerator: float, denominator: float, expected: float):
+    """
+    Test that ``_safe_divide`` returns the correct value.
+    """
     assert query_timer._safe_divide(numerator, denominator) == expected
 
 
 def test__get_query_filepaths(directory):
+    """
+    Test that ``_get_query_filepaths`` returns the correct filepaths.
+    """
     expected = [
         directory / "query-1.sql",
         directory / "query-2.sql",
@@ -93,6 +102,9 @@ def test__get_query_filepaths(directory):
 
 
 def test__get_query_filepaths__with_warning(directory):
+    """
+    Test that ``_get_query_filepaths`` returns the correct filepaths.
+    """
     file_path = Path(directory / "temp.py")
     file_path.touch()
 
@@ -104,6 +116,9 @@ def test__get_query_filepaths__with_warning(directory):
 
 @pytest.mark.skip(reason="Currently, can't compare runner functions.")
 def test__create_query_runners(db_connection, directory):
+    """
+    Test that ``_create_query_runners`` returns the correct runners.
+    """
     expected = [
         query_timer.Runner(
             name="query-1.sql",
@@ -124,6 +139,9 @@ def test__create_query_runners(db_connection, directory):
 
 
 def test__print_runner_stats(directory):
+    """
+    Test that ``_print_runner_stats`` prints the correct output.
+    """
     expected = [
         "query-1.sql: 0.00000000s (0.0%)",
         "query-2.sql: 0.00000000s (0.0%)",
@@ -148,6 +166,10 @@ def test__print_runner_stats(directory):
 
 
 def test__time_queries__with_error(db_connection):
+    """
+    Test that ``time_queries`` raises an error when the directory doesn't
+    exist.
+    """
     with pytest.raises(FileNotFoundError):
         query_timer.time_queries(
             conn=db_connection,
