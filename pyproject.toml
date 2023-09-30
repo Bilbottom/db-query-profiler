@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "db_query_profiler"
-version = "0.0.2"
+version = "0.0.4"
 description = "Lightweight database query profiler."
 authors = ["Bilbottom"]
 readme = "README.md"
