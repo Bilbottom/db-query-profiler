@@ -29,7 +29,7 @@ This tool is database-agnostic -- just provide a class that connects to your dat
 This is currently only available on GitHub, so you'll need to supply the GitHub URL to `pip`:
 
 ```
-pip install git+https://github.com/Bilbottom/db-query-profiler@v0.0.2
+pip install git+https://github.com/Bilbottom/db-query-profiler@v0.0.4
 ```
 
 ## Sample Output 📝
