@@ -23,7 +23,7 @@ class DatabaseConnection(Protocol):
     Database connector to run SQL against the database.
     """
 
-    def execute(self, *args: Any, **kwargs: Any) -> Any:
+    def execute(self) -> Any:
         """
         Execute a statement.
         """
@@ -142,7 +142,7 @@ def _create_query_runners(
     # https://docs.python.org/3/faq/programming.html#why-do-lambdas-defined-in-a-loop-with-different-values-all-return-the-same-result
     return [
         Runner(
-            runner=lambda f=file: db_conn.execute(f.read_text()),
+            runner=lambda f=file: db_conn.execute(f.read_text()),  # noqa
             name=file.name,
         )
         for file in _get_query_filepaths(directory)
