@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
 name = "db_query_profiler"
-version = "0.0.4"
+version = "0.0.5"
 description = "Lightweight database query profiler."
 authors = ["Bilbottom"]
 readme = "README.md"
@@ -16,16 +16,14 @@ python = "^3.7"
 tqdm = "^4"
 typing-extensions = { version = "^4", python = "<3.8" }
 
-[tool.poetry.group.dev]
-optional = true
+[tool.poetry.group]
+dev.optional = true
+test.optional = true
 
 [tool.poetry.group.dev.dependencies]
 coverage-badge = "^1.1.0"
 pre-commit = "^2.21.0"
 pylint = "2.13.9"
-
-[tool.poetry.group.test]
-optional = true
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.4.0"
