@@ -52,7 +52,7 @@ repos:
     rev: v3.15.0
     hooks:
       - id: pyupgrade
-        args: [--py37-plus]
+        args: [--py38-plus]
         name: Align Python code to latest syntax
 
   - repo: https://github.com/psf/black
