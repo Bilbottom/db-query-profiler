@@ -3,7 +3,7 @@
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![application-tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml)
-[![coverage](coverage.svg)](https://github.com/dbrgn/coverage-badge)
+[![coverage](https://raw.githubusercontent.com/Bilbottom/db-query-profiler/main/coverage.svg)](https://github.com/dbrgn/coverage-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Bilbottom/db-query-profiler)
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
@@ -26,10 +26,10 @@ This tool is database-agnostic -- just provide a class that connects to your dat
 
 ## Installation ⬇️
 
-This is currently only available on GitHub, so you'll need to supply the GitHub URL to `pip`:
+Grab a copy from PyPI like usual:
 
 ```
-pip install git+https://github.com/Bilbottom/db-query-profiler@v0.0.4
+pip install db-query-profiler
 ```
 
 ## Sample Output 📝
