@@ -1,6 +1,7 @@
 """
 Unit tests for the ``db_query_profiler.query_timer`` module.
 """
+
 import contextlib
 import io
 import re

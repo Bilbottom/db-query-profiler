@@ -1,6 +1,7 @@
 """
 A module for timing SQL queries.
 """
+
 import datetime
 import functools
 import inspect
