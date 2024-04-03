@@ -1,5 +1,6 @@
-name: Application Tests
-run-name: Application tests 🧪
+---
+name: Tests
+run-name: Tests 🧪
 
 on:
   workflow_dispatch:

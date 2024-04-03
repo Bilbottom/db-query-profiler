@@ -1,8 +1,8 @@
 <div align="center">
 
-[![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
-[![application-tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/application-tests.yaml)
+[![tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/tests.yaml)
 [![coverage](https://raw.githubusercontent.com/Bilbottom/db-query-profiler/main/coverage.svg)](https://github.com/dbrgn/coverage-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Bilbottom/db-query-profiler)
 
@@ -22,7 +22,9 @@ Lightweight database query profiler.
 
 This tool is database-agnostic -- just provide a class that connects to your database with an `execute` method, and the queries that you want to profile.
 
-**_This is NOT a replacement for analysing the [query plan](https://en.wikipedia.org/wiki/Query_plan). This should just support the analysis done with it._**
+> [!WARNING]
+>
+> **_This is NOT a replacement for analysing the [query plan](https://en.wikipedia.org/wiki/Query_plan). This should just support the analysis done with it._**
 
 ## Installation ⬇️
 
