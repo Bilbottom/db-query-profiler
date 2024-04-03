@@ -36,9 +36,7 @@ black = "*"
 
 [tool.pytest.ini_options]
 addopts = "--cov=db_query_profiler --cov-report=term-missing --cov-fail-under=70"
-testpaths = [
-    "tests",
-]
+testpaths = ["tests"]
 
 
 [tool.isort]
