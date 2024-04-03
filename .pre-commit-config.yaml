@@ -1,10 +1,7 @@
 ---
 ci:
-  skip: [poetry-lock, sourcery, pylint, pytest, coverage-badge]
   autoupdate_schedule: quarterly
-
-default_install_hook_types: [pre-commit, post-commit]
-default_stages: [commit]
+  skip: [poetry-lock, sourcery, pylint, pytest, coverage-badge]
 
 repos:
   - repo: meta
@@ -101,7 +98,7 @@ repos:
     hooks:
       - id: pytest
         name: Run unit tests
-        entry: pytest tests
+        entry: pytest tests --quiet
         language: system
         pass_filenames: false
         always_run: true
@@ -110,5 +107,4 @@ repos:
         entry: coverage-badge -o coverage.svg -f
         language: system
         pass_filenames: false
-        stages: [post-commit]
         always_run: true
