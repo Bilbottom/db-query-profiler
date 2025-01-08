@@ -18,17 +18,17 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
       - name: 🛎️ Check out repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 📦 Set up Poetry
-        run: pipx install poetry==1.5.1
+        run: pipx install poetry==2.0.0
 
       - name: 🐍 Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
           cache: poetry
@@ -37,7 +37,7 @@ jobs:
         run: poetry install --with test
 
       - name: ✅ Run unit tests
-        run: poetry run pytest
+        run: poetry run pytest -vvv
 
       - name: 🔗 Run end-to-end tests
         run: poetry run python tests/end-to-end/end_to_end.py

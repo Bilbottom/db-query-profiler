@@ -2,7 +2,7 @@ import shutil
 import sqlite3
 from pathlib import Path
 
-import pytest  # noqa
+import pytest
 
 
 @pytest.fixture

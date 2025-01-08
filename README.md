@@ -153,7 +153,7 @@ The Python packaging is managed with [Poetry](https://python-poetry.org/) (check
 To get started, just clone the repo, install the dependencies, and enable [pre-commit](https://pre-commit.com/):
 
 ```bash
-poetry install --sync --with dev,test
+poetry install --with dev,test
 pre-commit install --install-hooks
 ```
 

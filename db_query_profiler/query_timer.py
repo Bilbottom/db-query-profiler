@@ -8,7 +8,8 @@ import inspect
 import pathlib
 import timeit
 import warnings
-from typing import Any, Callable, Generator, List, Protocol, Union
+from collections.abc import Generator
+from typing import Any, Callable, List, Protocol, Union
 
 import tqdm
 
@@ -137,7 +138,7 @@ def _create_query_runners(
     # https://docs.python.org/3/faq/programming.html#why-do-lambdas-defined-in-a-loop-with-different-values-all-return-the-same-result
     return [
         Runner(
-            runner=lambda f=file: db_conn.execute(f.read_text()),  # noqa
+            runner=lambda f=file: db_conn.execute(f.read_text()),
             name=file.name,
         )
         for file in _get_query_filepaths(directory)
