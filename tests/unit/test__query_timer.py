@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-import db_query_profiler.query_timer as query_timer
+from db_query_profiler import query_timer
 
 
 @pytest.fixture
@@ -49,9 +49,7 @@ def test__runner__str(runner_1: query_timer.Runner):
     """
     Test the Runner's ``__str__`` method.
     """
-    expected = (
-        "Runner(runner=[[OrderedDict()], <class 'inspect._empty'>], name=query-1.sql)"
-    )
+    expected = "Runner(runner=[[OrderedDict()], <class 'inspect._empty'>], name=query-1.sql)"
 
     assert str(runner_1) == expected
 
@@ -129,7 +127,9 @@ def test__get_query_filepaths__with_warning(directory: Path):
     file_path.unlink()
 
 
-def test__create_query_runners(db_connection: sqlite3.Connection, directory: Path):
+def test__create_query_runners(
+    db_connection: sqlite3.Connection, directory: Path
+):
     """
     Test the ``_create_query_runners`` function.
     """
@@ -150,7 +150,9 @@ def test__create_query_runners(db_connection: sqlite3.Connection, directory: Pat
     # fmt: on
 
 
-def test__run_runners(runner_1: query_timer.Runner, runner_2: query_timer.Runner):
+def test__run_runners(
+    runner_1: query_timer.Runner, runner_2: query_timer.Runner
+):
     """
     Test the ``_run_runners`` function.
     """
@@ -165,7 +167,7 @@ def test__run_runners(runner_1: query_timer.Runner, runner_2: query_timer.Runner
     assert runner_2.total_time > 0
 
 
-def test__print_runner_stats(directory: Path):  # noqa
+def test__print_runner_stats(directory: Path):
     """
     Test the ``_print_runner_stats`` function.
     """

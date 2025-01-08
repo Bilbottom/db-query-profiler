@@ -1,37 +1,34 @@
+[project]
+name = "db_query_profiler"
+version = "0.0.6"
+description = "Lightweight database query profiler."
+authors = [{name = "Bilbottom"}]
+readme = "README.md"
+requires-python = ">=3.9"
+dynamic = ["dependencies"]
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 
 [tool.poetry]
-name = "db_query_profiler"
-version = "0.0.6"
-description = "Lightweight database query profiler."
-authors = ["Bilbottom"]
-readme = "README.md"
 packages = [{include = "db_query_profiler"}]
 
 [tool.poetry.dependencies]
-python = "^3.8"
 tqdm = "^4"
 
 [tool.poetry.group]
-dev.optional = true
-test.optional = true
-ide.optional = true
+dev.optional = false
+test.optional = false
 
 [tool.poetry.group.dev.dependencies]
 coverage-badge = "^1.1.0"
-pre-commit = "^2.21.0"
-pylint = "2.13.9"
+pre-commit = "^3.6.2"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4.0"
+pytest = "^8.0.2"
 pytest-cov = "^4.1.0"
-
-# Packages just for IDE integration
-[tool.poetry.group.ide.dependencies]
-black = "*"
 
 
 [tool.pytest.ini_options]
@@ -39,13 +36,33 @@ addopts = "--cov=db_query_profiler --cov-report=term-missing --cov-fail-under=70
 testpaths = ["tests"]
 
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+line-length = 80
+indent-width = 4
+target-version = "py39"
 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
 
-[tool.pylint.format]
-max-line-length = 120
+[tool.ruff.lint]
+select = ["F", "I", "N", "PL", "R", "RUF", "S", "UP", "W"]
+ignore = []
+fixable = ["ALL"]
+unfixable = []
+# Allow unused variables when underscore-prefixed
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
-[tool.pylint.MASTER]
-ignore-paths = "^tests/.*$"
-disable = ["too-few-public-methods"]
+# https://github.com/astral-sh/ruff/issues/4368
+[tool.ruff.lint.extend-per-file-ignores]
+"*.py" = [
+    "UP006",  #  Use `list` instead of `List` for type annotation  -- can't lint this until py310?
+    "UP035",  #  `typing.List` is deprecated, use `list` instead   -- can't lint this until py310?
+]
+"tests/**/*.py" = [
+    "S101",    #  Use of `assert` detected
+    "PLR2004", #  Magic value used in comparison
+    "PLR0913", #  Too many arguments in function definition
+]
