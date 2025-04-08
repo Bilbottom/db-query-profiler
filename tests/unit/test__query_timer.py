@@ -138,8 +138,8 @@ def test__create_query_runners(
         db_conn=db_connection,
     )
     expected = [
-        f"""Runner(runner=[[OrderedDict([('f', <Parameter "f={repr(directory / 'query-1.sql')}">)])], <class 'inspect._empty'>], name=query-1.sql)""",  # noqa
-        f"""Runner(runner=[[OrderedDict([('f', <Parameter "f={repr(directory / 'query-2.sql')}">)])], <class 'inspect._empty'>], name=query-2.sql)""",  # noqa
+        f"""Runner(runner=[[OrderedDict([('f', <Parameter "f={repr(directory / "query-1.sql")}">)])], <class 'inspect._empty'>], name=query-1.sql)""",  # noqa
+        f"""Runner(runner=[[OrderedDict([('f', <Parameter "f={repr(directory / "query-2.sql")}">)])], <class 'inspect._empty'>], name=query-2.sql)""",  # noqa
     ]
 
     # fmt: off
