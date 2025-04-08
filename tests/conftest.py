@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pytest
 
+HERE = Path(__file__).parent
+
 
 @pytest.fixture
 def db_connection():
@@ -19,7 +21,7 @@ def directory():
     The subdirectory tests that the functions only look at the files in
     _their_ directory, and not the files in any subdirectory.
     """
-    directory = Path("tests/unit/test-directory").absolute()
+    directory = HERE / "unit/test-directory"
     subdirectory = directory / "subdirectory"
 
     shutil.rmtree(directory, ignore_errors=True)
