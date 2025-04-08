@@ -1,34 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "db_query_profiler"
-version = "0.0.6"
+version = "0.0.7"
 description = "Lightweight database query profiler."
 authors = [{name = "Bilbottom"}]
 readme = "README.md"
 requires-python = ">=3.9"
-dynamic = ["dependencies"]
+dependencies = [
+    "tqdm>=4.0.0",
+]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "coverage-badge>=1.1.0",
+    "pre-commit>=4.1.0",
+]
+test = [
+    "pytest>=8.3.5",
+    "pytest-cov>=6.0.0",
+]
 
 
-[tool.poetry]
-packages = [{include = "db_query_profiler"}]
-
-[tool.poetry.dependencies]
-tqdm = "^4"
-
-[tool.poetry.group]
-dev.optional = false
-test.optional = false
-
-[tool.poetry.group.dev.dependencies]
-coverage-badge = "^1.1.0"
-pre-commit = "^3.6.2"
-
-[tool.poetry.group.test.dependencies]
-pytest = "^8.0.2"
-pytest-cov = "^4.1.0"
+[tool.setuptools.packages.find]
+include = ["db_query_profiler"]
 
 
 [tool.pytest.ini_options]

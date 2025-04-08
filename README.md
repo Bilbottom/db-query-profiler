@@ -1,16 +1,14 @@
 <div align="center">
 
 [![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
-[![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
+[![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/tests.yaml)
 [![coverage](https://raw.githubusercontent.com/Bilbottom/db-query-profiler/main/coverage.svg)](https://github.com/dbrgn/coverage-badge)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Bilbottom/db-query-profiler)
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Bilbottom/db-query-profiler/main.svg)](https://results.pre-commit.ci/latest/github/Bilbottom/db-query-profiler/main)
-[![Sourcery](https://img.shields.io/badge/Sourcery-enabled-brightgreen)](https://sourcery.ai)
 
 </div>
 
@@ -32,6 +30,12 @@ Grab a copy from PyPI like usual:
 
 ```
 pip install db-query-profiler
+```
+
+If you'd prefer, you can install from source:
+
+```
+pip install git+https://github.com/Bilbottom/db-query-profiler.git@main
 ```
 
 ## Sample Output 📝
@@ -148,13 +152,11 @@ db_conn = sqlite3.connect("file:path/to/database.db?mode=ro", uri=True)
 
 ## Contributing 🤝
 
-The Python packaging is managed with [Poetry](https://python-poetry.org/) (check which version in the [poetry.lock](poetry.lock) file), but that should be the only dependency.
+The Python packaging is managed with [uv](https://github.com/astral-sh/uv), but that should be the only dependency.
 
 To get started, just clone the repo, install the dependencies, and enable [pre-commit](https://pre-commit.com/):
 
 ```bash
-poetry install --with dev,test
+uv sync --all-groups
 pre-commit install --install-hooks
 ```
-
-Happy coding! 🎉
