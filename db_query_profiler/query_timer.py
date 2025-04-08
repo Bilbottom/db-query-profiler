@@ -33,11 +33,6 @@ def _safe_divide(numerator: float, denominator: float) -> float:
     Source:
 
     - https://stackoverflow.com/a/68118106/8213085
-
-    :param numerator: A float to be divided.
-    :param denominator: A float to divide by.
-    :return: The result of dividing ``numerator`` by ``denominator`` if
-     ``denominator`` is not 0, else 0.
     """
     return denominator and numerator / denominator
 
@@ -52,10 +47,6 @@ class Runner:
     """
 
     def __init__(self, runner: Callable, name: str):
-        """
-        :param runner: A function to be run when the object is called.
-        :param name: The name to give this runner.
-        """
         self.runner = runner
         self.name = name
 
@@ -93,9 +84,6 @@ class Runner:
 
         This will additionally include the average time of this runner as a
         percentage of the average time of all runners for comparison.
-
-        :param total_avg_time: The average time, in seconds, of all runners
-         to use as the denominator for the percentage calculation.
         """
         return f"{self.name}: {self.average_time:.8f}s ({_safe_divide(self.average_time, total_avg_time):.1%})"
 
@@ -103,9 +91,6 @@ class Runner:
 def _get_query_filepaths(directory: pathlib.Path) -> Generator:
     """
     Return the full file name paths of the files at ``directory``.
-
-    :param directory: The path to the directory whose contents should be
-     read.
     """
     for path in directory.glob("*"):
         if path.is_file():
@@ -124,11 +109,6 @@ def _create_query_runners(
     """
     Return a list of ``Runners`` each corresponding to the files in the
     ``filepath``.
-
-    :param directory: The directory containing the SQL files to be run.
-    :param db_conn: The database connection to run the queries against.
-    :return: A list of ``Runner``s each corresponding to the files in the
-     ``directory``.
     """
     # Closures in Python capture _variables_, not _values_, so the `file`
     # variable by itself would be the last file in the directory for each
@@ -152,9 +132,6 @@ def _run_runners(runners: List[Runner], repeat: int) -> None:
     This will always run the runners once before the repeat loop to set up
     the temp tables in the database (there's no way to avoid these implicit
     tables).
-
-    :param runners: The list of ``Runner``s to run.
-    :param repeat: The number of times to run the ``runners``.
     """
     # Set the 'temp' tables
     for runner in runners:
@@ -222,10 +199,11 @@ def time_queries(
             )
 
     :param conn: The database connector. Must implement an ``execute``
-     method.
+        method.
     :param repeat: The number of times to run each query. Note that the
-     queries will all be run once before the repeat loop to set up the temp
-     tables in the database (there's no way to avoid these implicit tables).
+        queries will all be run once before the repeat loop to set up the
+        temp tables in the database (there's no way to avoid these implicit
+        tables).
     :param directory: The path to the directory containing the SQL queries.
     """
     directory = pathlib.Path(directory)
