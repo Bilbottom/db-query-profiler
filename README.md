@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Python](https://img.shields.io/badge/Python-3.7+-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv)
 [![tests](https://github.com/Bilbottom/db-query-profiler/actions/workflows/tests.yaml/badge.svg)](https://github.com/Bilbottom/db-query-profiler/actions/workflows/tests.yaml)
 [![coverage](https://raw.githubusercontent.com/Bilbottom/db-query-profiler/main/coverage.svg)](https://github.com/dbrgn/coverage-badge)

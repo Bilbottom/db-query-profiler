@@ -9,6 +9,7 @@ on:
     paths:
       - "db_query_profiler/**"
       - "tests/**"
+      - ".github/**"
       - uv.lock
       - .pre-commit-config.yaml
 
@@ -19,7 +20,7 @@ jobs:
     strategy:
       matrix:
         os: ["windows-latest", "macos-latest", "ubuntu-latest"]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - name: 🛎️ Check out repository
